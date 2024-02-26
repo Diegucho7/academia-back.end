@@ -12,14 +12,20 @@ const MateriasSchema = Schema({
         required: true,
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
+    },
+    curso: {
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: 'Curso'
     }
-},  { collection: 'academias'});
+},  { collection: 'materias'});
 
 MateriasSchema.method('toJSON', function() {
-    const { __v, password, ...object } = this.toObject();
+    // const { __v, password, ...object } = this.toObject();
+    const { __v, ...object} = this.toObject();
     return object;
 })
 
 
 
-module.exports = model( 'Academia', AcademiaSchema );
+module.exports = model( 'Profesor', ProfesoresSchema );
