@@ -2,23 +2,23 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Academia = require('../models/academia');
+const Curso = require('../models/curso');
 
 
-const getAcademias =  async (req, res) =>{
-    const academias = await Academia.find()
+const getCursos =  async (req, res) =>{
+    const cursos = await Curso.find()
                                     .populate('usuario','nombre ')
     res.json({
         ok: true,   
-        academias
+        cursos
     })
 }
 
 
-const crearAcademias = async(req, res) =>{
+const crearCursos = async(req, res) =>{
 
     const uid =  req.uid;
-    const academia = new Academia({
+    const curso = new Curso({
         usuario:uid,
         ...req.body
     });
@@ -26,11 +26,11 @@ const crearAcademias = async(req, res) =>{
 
     try {
 
-        const academiaDB = await academia.save();
+        const cursoDB = await curso.save();
 
         res.json({
             ok: true,   
-            academia: academiaDB
+            curso: cursoDB
         })
 
     } catch (error) {
@@ -47,34 +47,34 @@ const crearAcademias = async(req, res) =>{
 }
 
 
-const actualizarAcademias = async(req, res) =>{
+const actualizarCursos = async(req, res) =>{
 
     const id  = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const academia = await Academia.findById( id );
-        if(!academia){
+        const curso = await Curso.findById( id );
+        if(!curso){
             res.status(500).json({
                 ok: false,
-                msg: 'Academia no encontrado'
+                msg: 'Curso no encontrado'
                                 })
                      }
                      
-                     const cambiosAcademia = {
+                     const cambiosCurso = {
                         ...req.body,
                         usuario: uid
                      }
 
-                const academiaActualizado = await Academia.findByIdAndUpdate( id, cambiosAcademia,{new:true});
+                const cursoActualizado = await Curso.findByIdAndUpdate( id, cambiosCurso,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
         
             res.json({
             ok: true,
-            academia: academiaActualizado
+            curso: cursoActualizado
         })
         
 
@@ -91,28 +91,28 @@ const actualizarAcademias = async(req, res) =>{
 }
 
 
-const borrarAcademias = async(req, res) =>{
+const borrarCursos = async(req, res) =>{
     
     const id  = req.params.id;
 
     try {
 
-        const academia = await Academia.findById( id );
-        if(!academia){
+        const curso = await Curso.findById( id );
+        if(!curso){
             res.status(500).json({
                 ok: false,
-                msg: 'Academia no encontrada'
+                msg: 'Curso no encontrada'
                                 })
                      }
                      
                     
-                await Academia.findByIdAndDelete (id);
+                await Curso.findByIdAndDelete (id);
 
                      
         
             res.json({
             ok: true,
-            msg:'Academia Eliminada'
+            msg:'Curso Eliminada'
         })
         
 
@@ -131,8 +131,8 @@ const borrarAcademias = async(req, res) =>{
 
 
 module.exports = {
-    getAcademias,
-    crearAcademias,
-    actualizarAcademias,
-    borrarAcademias
+    getCursos,
+    crearCursos,
+    actualizarCursos,
+    borrarCursos
 }
