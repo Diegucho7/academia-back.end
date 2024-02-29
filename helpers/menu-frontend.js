@@ -23,7 +23,7 @@
 
         //En caso que quiera tienes 2 menus
         // menu[1].submenu.unshift({ titulo: 'Usuarios', url: 'usuarios' },)   
-        menu[0].submenu.unshift({ titulo: 'Clases', url: 'clases' },
+        menu[0].submenu.unshift({ titulo: 'Cursos', url: 'cursos' },
                                 { titulo: 'Materias', url: 'materias' },
                                 { titulo: 'Usuarios', url: 'usuarios' }
                                 
