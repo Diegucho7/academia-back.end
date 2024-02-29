@@ -13,7 +13,7 @@ const {
     crearMaterias,
     actualizarMaterias,
     borrarMaterias,
-    getMateriasById
+    getMateriaById
 } = require ('../controllers/materias')
 
 const router = Router();
@@ -24,8 +24,8 @@ router.get( '/',validarJWT ,getMaterias);
 router.post( '/', [
     validarJWT,
     check('nombre', 'El nombre de la materia es necesario').not().isEmpty(),
-    check('academia', 'El id del curso es necesario').not().isEmpty(),
-    check('academia', 'El curso id, debe de ser válido').isMongoId(),
+    check('curso', 'El id del curso es necesario').not().isEmpty(),
+    check('curso', 'El curso id, debe de ser válido').isMongoId(),
     validarCampos
 ] 
 ,crearMaterias);
@@ -46,7 +46,7 @@ router.get('/:id',
 [
 validarJWT
 ],
-getMateriasById
+getMateriaById
 );
 
 

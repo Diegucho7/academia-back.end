@@ -28,4 +28,4 @@ MateriasSchema.method('toJSON', function() {
 
 
 
-module.exports = model( 'Profesor', ProfesoresSchema );
+module.exports = model( 'Materia', MateriasSchema );

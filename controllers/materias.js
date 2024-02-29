@@ -2,11 +2,11 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Materias = require('../models/materia');
+const Materia = require('../models/materia');
 
 const getMaterias = async (req, res) =>{
 
-    const materias = await Materias.find()
+    const materias = await Materia.find()
                                     .populate('usuario','nombre ')
                                     .populate('academia','nombre  ')
     res.json({
@@ -22,7 +22,7 @@ const getMateriaById  = async (req, res) =>{
 
     
     try {
-        const materia = await Materias.findById(id)
+        const materia = await Materia.findById(id)
                                         .populate('usuario','nombre  img')
                                         .populate('curso','nombre img');
         res.json({
@@ -42,7 +42,7 @@ const getMateriaById  = async (req, res) =>{
 
 const crearMaterias = async (req, res) =>{
     const uid =  req.uid;
-    const materia = new Materias({
+    const materia = new Materia({
         usuario:uid,
         ...req.body
     });
@@ -75,7 +75,7 @@ const actualizarMaterias = async(req, res) =>{
 
     try {
 
-        const materia = await Materias.findById( id );
+        const materia = await Materia.findById( id );
         if(!materia){
             res.status(500).json({
                 ok: false,
@@ -88,7 +88,7 @@ const actualizarMaterias = async(req, res) =>{
                         usuario: uid
                      }
 
-                const materiaActualizado = await Materias.findByIdAndUpdate( id, cambiosMateria,{new:true});
+                const materiaActualizado = await Materia.findByIdAndUpdate( id, cambiosMateria,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
@@ -117,7 +117,7 @@ const borrarMaterias = async(req, res) =>{
 
     try {
 
-        const materia = await Materias.findById( id );
+        const materia = await Materia.findById( id );
         if(!materia){
             res.status(500).json({
                 ok: false,
@@ -126,7 +126,7 @@ const borrarMaterias = async(req, res) =>{
                      }
                      
                     
-                await Materias.findByIdAndDelete (id);
+                await Materia.findByIdAndDelete (id);
 
                      
         

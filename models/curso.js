@@ -22,4 +22,4 @@ CursosSchema.method('toJSON', function() {
 
 
 
-module.exports = model( 'Curso', AcademiaSchema );
+module.exports = model( 'Curso', CursosSchema);

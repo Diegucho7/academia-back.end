@@ -4,10 +4,12 @@ const dbConnection = async() => {
  
     try {
         //Codigo original - funcional
-        // await mongoose.connect(process.env.DB_CNN);
-        await mongoose.connect(process.env.DB_CNN,{
-            dbName: process.env.MONGO_DB_NAME
-        });
+        await mongoose.connect(process.env.DB_CNN);
+
+        //Codigo build
+        // await mongoose.connect(process.env.DB_CNN,{
+        //     dbName: process.env.MONGO_DB_NAME
+        // });
  
         console.log('DB OnLine');
  
