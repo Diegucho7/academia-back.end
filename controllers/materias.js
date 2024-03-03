@@ -8,7 +8,7 @@ const getMaterias = async (req, res) =>{
 
     const materias = await Materia.find()
                                     .populate('usuario','nombre ')
-                                    .populate('academia','nombre  ')
+                                    .populate('curso','nombre  ')
     res.json({
         ok: true,
         materias
@@ -24,8 +24,8 @@ const getMateriaById  = async (req, res) =>{
     try {
         const materia = await Materia.findById(id)
                                         .populate('usuario','nombre  img')
-                                        .populate('curso','nombre img');
-        res.json({
+                                            .populate('curso','nombre img');
+            res.json({
             ok: true,
             materia
         })
