@@ -28,13 +28,14 @@ app.use('/api/academias', require('./router/academias'));
 app.use('/api/profesores', require('./router/profesores'));
 app.use('/api/cursos', require('./router/cursos'));
 app.use('/api/materias', require('./router/materias'));
+app.use('/api/notas', require('./router/notas'));
 app.use('/api/todo', require('./router/busquedas'));
 app.use('/api/todo/coleccion', require('./router/busquedas'));
 app.use('/api/login', require('./router/auth'));
 app.use('/api/uploads', require('./router/uploads'));
 
 
-
+    
 app.listen(process.env.PORT ?? 3000, ()=>{
     console.log('Servidor corriendo en puerto '+ process.env.PORT )
 });
