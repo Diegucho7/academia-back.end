@@ -3,6 +3,8 @@ const { model } = require("mongoose");
 const Usuario = require('../models/usuario');
 const Academia = require('../models/academia');
 const Profesor = require('../models/profesor');
+const Curso = require('../models/curso');
+const Materia = require('../models/materia');
 // const hospital = require('../models/hospital');
 
 let pathViejo = '';
@@ -66,6 +68,38 @@ const actualizarImagen = async(tipo, id, nombreArchivo) =>{
 
             academia.img = nombreArchivo;
             await academia.save();
+            return true;
+            break;
+
+        case 'cursos':
+            const curso = await Curso.findById(id);
+            if(!curso){
+                console.log('No es un curso por id');
+                return false;
+            }        
+
+             pathViejo = `./uploads/curso/${curso.img}`;
+            
+            borarImagen(pathViejo);
+
+            curso.img = nombreArchivo;
+            await curso.save();
+            return true;
+            break;
+
+        case 'materias':
+            const materia = await Materia.findById(id);
+            if(!materia){
+                console.log('No es un materia por id');
+                return false;
+            }        
+
+             pathViejo = `./uploads/materia/${materia.img}`;
+            
+            borarImagen(pathViejo);
+
+            materia.img = nombreArchivo;
+            await materia.save();
             return true;
             break;
     
