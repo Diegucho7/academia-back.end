@@ -25,7 +25,8 @@
         // menu[1].submenu.unshift({ titulo: 'Usuarios', url: 'usuarios' },)   
         menu[0].submenu.unshift({ titulo: 'Cursos', url: 'cursos' },
                                 { titulo: 'Materias', url: 'materias' },
-                                { titulo: 'Usuarios', url: 'usuarios' }
+                                { titulo: 'Usuarios', url: 'usuarios' },
+                                { titulo: 'Notas', url: 'notas' }
                                 
         )
         
