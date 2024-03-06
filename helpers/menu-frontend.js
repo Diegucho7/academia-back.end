@@ -26,7 +26,9 @@
         menu[0].submenu.unshift({ titulo: 'Cursos', url: 'cursos' },
                                 { titulo: 'Materias', url: 'materias' },
                                 { titulo: 'Usuarios', url: 'usuarios' },
-                                { titulo: 'Notas', url: 'notas' }
+                                { titulo: 'Notas', url: 'notas' },
+                                { titulo: 'Resultados', url: 'resultados' },
+                                { titulo: 'Estudiantes', url: 'estudiantes' },
                                 
         )
         

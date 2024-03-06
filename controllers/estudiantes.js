@@ -2,47 +2,47 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Materia = require('../models/materia');
+const Estudiante = require('../models/estudiante');
 
-const getMaterias = async (req, res) =>{
+const getEstudiantes = async (req, res) =>{
 
-    const materias = await Materia.find()
+    const estudiantes = await Estudiante.find()
                                     .populate('usuario','nombre ')
                                     .populate('curso','nombre  ')
     res.json({
         ok: true,
-        materias
+        estudiantes
     })
 
 }
 
-const getMateriaById  = async (req, res) =>{
+const getEstudianteById  = async (req, res) =>{
 
     const id = req.params.id;
 
     
     try {
-        const materia = await Materia.findById(id)
+        const estudiante = await Estudiante.findById(id)
                                         .populate('usuario','nombre  img')
                                             .populate('curso','nombre img');
             res.json({
             ok: true,
-            materia
+            estudiante
         })
         
     } catch (error) {
         console.log(error)
         res.json({
             ok: false,
-            msg: 'Hable con el administrador, materia no encontrada',
+            msg: 'Hable con el administrador, estudiante no encontrado',
         })
         }
 
 }
 
-const crearMaterias = async (req, res) =>{
+const crearEstudiantes = async (req, res) =>{
     const uid =  req.uid;
-    const materia = new Materia({
+    const estudiante = new Estudiante({
         usuario:uid,
         ...req.body
     });
@@ -50,11 +50,11 @@ const crearMaterias = async (req, res) =>{
 
     try {
 
-        const materiaDB = await materia.save();
+        const estudianteDB = await estudiante.save();
 
         res.json({
             ok: true,
-            materia: materiaDB
+            materia: estudianteDB
         })
 
     } catch (error) {
@@ -69,33 +69,33 @@ const crearMaterias = async (req, res) =>{
 }
 
 
-const actualizarMaterias = async(req, res) =>{
+const actualizarEstudiantes = async(req, res) =>{
     const id  = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const estudiante = await Estudiante.findById( id );
+        if(!estudiante){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrada'
+                msg: 'Estudiante no encontrada'
                                 })
                      }
                      
-                     const cambiosMateria = {
+                     const cambiosEstudiante = {
                         ...req.body,
                         usuario: uid
                      }
 
-                const materiaActualizado = await Materia.findByIdAndUpdate( id, cambiosMateria,{new:true});
+                const estudianteActualizado = await Materia.findByIdAndUpdate( id, cambiosEstudiante,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
         
             res.json({
             ok: true,
-            Materia: materiaActualizado
+            Materia: estudianteActualizado
         })
         
 
@@ -111,28 +111,28 @@ const actualizarMaterias = async(req, res) =>{
 }
 
 
-const borrarMaterias = async(req, res) =>{
+const borrarEstudiantes = async(req, res) =>{
 
     const id  = req.params.id;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const estudiante = await Estudiante.findById( id );
+        if(!estudiante){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrado'
+                msg: 'Estudiante no encontrado'
                                 })
                      }
                      
                     
-                await Materia.findByIdAndDelete (id);
+                await Estudiante.findByIdAndDelete (id);
 
                      
         
             res.json({
             ok: true,
-            msg:'Materia Eliminado'
+            msg:'Estudiante Eliminado'
         })
         
 
@@ -154,9 +154,9 @@ const borrarMaterias = async(req, res) =>{
 
 
 module.exports = {
-    getMaterias,
-    crearMaterias,
-    actualizarMaterias,
-    borrarMaterias,
-    getMateriaById
+    getEstudiantes,
+    crearEstudiantes,
+    actualizarEstudiantes,
+    borrarEstudiantes,
+    getEstudianteById
 }

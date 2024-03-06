@@ -26,6 +26,7 @@ dbConnection();
 app.use('/api/usuarios', require('./router/usuarios'));
 app.use('/api/academias', require('./router/academias'));
 app.use('/api/profesores', require('./router/profesores'));
+app.use('/api/estudiantes', require('./router/estudiantes'));
 app.use('/api/cursos', require('./router/cursos'));
 app.use('/api/materias', require('./router/materias'));
 app.use('/api/notas', require('./router/notas'));
