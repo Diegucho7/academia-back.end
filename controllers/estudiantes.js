@@ -8,7 +8,7 @@ const getEstudiantes = async (req, res) =>{
 
     const estudiantes = await Estudiante.find()
                                     .populate('usuario','nombre ')
-                                    .populate('curso','nombre  ')
+                                      .populate('curso','nombre  ')
     res.json({
         ok: true,
         estudiantes
@@ -23,7 +23,7 @@ const getEstudianteById  = async (req, res) =>{
     
     try {
         const estudiante = await Estudiante.findById(id)
-                                        .populate('usuario','nombre  img')
+                                        .populate('usuario','nombre img ')
                                             .populate('curso','nombre img');
             res.json({
             ok: true,
@@ -54,7 +54,7 @@ const crearEstudiantes = async (req, res) =>{
 
         res.json({
             ok: true,
-            materia: estudianteDB
+            estudiante: estudianteDB
         })
 
     } catch (error) {
@@ -88,7 +88,7 @@ const actualizarEstudiantes = async(req, res) =>{
                         usuario: uid
                      }
 
-                const estudianteActualizado = await Materia.findByIdAndUpdate( id, cambiosEstudiante,{new:true});
+                const estudianteActualizado = await Estudiante.findByIdAndUpdate( id, cambiosEstudiante,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      

@@ -12,7 +12,8 @@ const {
     getEstudiantes,
     crearEstudiantes,
     actualizarEstudiantes,
-    borrarEstudiantes
+    borrarEstudiantes,
+    getEstudianteById
 } = require ('../controllers/estudiantes')
 
 const router = Router();
@@ -39,7 +40,12 @@ router.delete( '/:id',
     validarJWT
 ],
 borrarEstudiantes);
-
+router.get('/:id',
+[
+validarJWT
+],
+getEstudianteById
+);
 
 
 

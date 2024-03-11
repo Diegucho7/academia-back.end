@@ -3,7 +3,19 @@ const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
 const Materia = require('../models/materia');
+const Curso = require('../models/curso');
 
+// const getMaterias = async (req, res) =>{
+//     const curso = req.params.id;    
+//     const materias = await Materia.where({ curso: curso })
+//                                     .populate('usuario','nombre ')
+//                                     .populate('curso','nombre  ')
+//     res.json({
+//         ok: true,
+//         materias 
+//     })
+
+// }
 const getMaterias = async (req, res) =>{
 
     const materias = await Materia.find()
@@ -13,6 +25,49 @@ const getMaterias = async (req, res) =>{
         ok: true,
         materias
     })
+
+}
+
+const getMateriasbyCurse = async (req, res) =>{
+    // const id = req.params.id;
+    const curso = req.params.id;    
+    const materia = await Materia.find()
+    .populate({
+        path: 'curso',
+        // match: { curso: ObjectId('65e003790724f2b7fb3edf50') }
+      });
+      
+      const filtro = materia.filter(record => record.curso);
+                                    // .populate('usuario','nota ')
+                                    // .populate('materia','nombre  ')
+    res.json({
+        ok: true,
+        filtro
+    })
+
+}
+
+const getCursoById  = async (req, res) =>{
+
+    const id = req.params.id;
+
+    
+    try {
+        const curso = await Curso.findById(id)
+                                        .populate('usuario','nombre  img')
+                                            .populate('curso','nombre img');
+            res.json({
+            ok: true,
+            curso
+        })
+        
+    } catch (error) {
+        console.log(error)
+        res.json({
+            ok: false,
+            msg: 'Hable con el administrador, materia no encontrada',
+        })
+        }
 
 }
 
@@ -158,5 +213,7 @@ module.exports = {
     crearMaterias,
     actualizarMaterias,
     borrarMaterias,
-    getMateriaById
+    getMateriaById,
+    getMateriasbyCurse,
+    getCursoById
 }

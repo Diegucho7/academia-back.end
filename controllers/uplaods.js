@@ -11,7 +11,7 @@ const   fileUpload = (req, res = response)=>{
 
    
     // Validar tipo
-    const tiposValidos = ['academias','profesores','usuarios','cursos','materias'];
+    const tiposValidos = ['academias','profesores','usuarios','cursos','materias','estudiantes'];
     if ( !tiposValidos.includes(tipo) ){
         return res.status(400).json({
             ok: false,

@@ -5,6 +5,7 @@ const Academia = require('../models/academia');
 const Profesor = require('../models/profesor');
 const Curso = require('../models/curso');
 const Materia = require('../models/materia');
+const Estudiante = require('../models/estudiante');
 // const hospital = require('../models/hospital');
 
 let pathViejo = '';
@@ -100,6 +101,22 @@ const actualizarImagen = async(tipo, id, nombreArchivo) =>{
 
             materia.img = nombreArchivo;
             await materia.save();
+            return true;
+            break;
+
+        case 'estudiantes':
+            const estudiante = await Estudiante.findById(id);
+            if(!estudiante){
+                console.log('No es un estudiante por id');
+                return false;
+            }        
+
+             pathViejo = `./uploads/estudiante/${estudiante.img}`;
+            
+            borarImagen(pathViejo);
+
+            estudiante.img = nombreArchivo;
+            await estudiante.save();
             return true;
             break;
     

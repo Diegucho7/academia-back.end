@@ -1,13 +1,14 @@
 const {Schema, model} = require('mongoose');
 
 const EstudiantesSchema = Schema({
-    id:{
-        type: String,
-        required: true
-    },
+   
     img:{
         type: String
     },
+    nombre:{
+        type: String
+    }
+    ,
     usuario: {
         required: true,
         type: Schema.Types.ObjectId,

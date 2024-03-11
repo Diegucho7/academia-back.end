@@ -18,7 +18,7 @@ const {
 
 const router = Router();
 
-router.get( '/',validarJWT ,getNotas);
+router.get( '/:id',validarJWT ,getNotas);
 
 
 router.post( '/', [
@@ -44,12 +44,12 @@ validarJWT
 ],
 borrarNotas);
 
-router.get('/:id',
-[
-validarJWT
-],
-getNotaById
-);
+// router.get('/:id',
+// [
+// validarJWT
+// ],
+// getNotaById
+// );
 
 
 

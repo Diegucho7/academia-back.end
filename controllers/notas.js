@@ -3,18 +3,37 @@ const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
 const Nota = require('../models/nota');
+const Materia = require('../models/materia');
+const Curso = require('../models/curso');
+
+
+
+    // const getMaterias = async (req, res) =>{
+    //     const curso = req.params.id;    
+    //     const materias = await Materia.where({ curso: (curso) })
+    //                                     .populate('usuario','nombre ')
+    //                                     .populate('curso','nombre  ')
+    //     res.json({
+    //         ok: true,
+    //         materias
+    //     })
+    
+    // }
 
 const getNotas = async (req, res) =>{
+    const curso = req.params.id;
 
-    const notas = await Nota.find()
-                                    .populate('usuario','nota ')
-                                    .populate('materia','nombre  ')
+    const materias = await Materia.where({curso:(curso)})
+                                        .populate('usuario','nombre')
+                                        .populate('curso','nombre')
     res.json({
         ok: true,
-        notas
+        materias,
+        curso
     })
 
 }
+
 
 const getNotaById  = async (req, res) =>{
 
