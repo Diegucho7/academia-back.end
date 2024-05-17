@@ -36,6 +36,7 @@ const getPeriodoById  = async (req, res) =>{
                                         .populate('profesor','nombre apellido ')
                                         .populate('curso', 'nombre')
                                         .populate('modulos')
+                                        .populate('valor')
         res.json({
             ok: true,
             periodo
