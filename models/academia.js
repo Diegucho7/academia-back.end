@@ -9,7 +9,7 @@ const AcademiaSchema = Schema({
         type: String
     },
     usuario: {
-        required: true,
+        // required: true,
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }

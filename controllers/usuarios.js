@@ -3,6 +3,33 @@ const  bcrypt  = require ('bcryptjs');
 const Usuario = require('../models/usuario');
 const {generarJwt} = require('../helpers/jwt')
 
+
+
+const getUsuarioByRoleProfesor  = async (req, res) =>{
+
+    const desde = Number(req.query.desde) || 0 ;
+    
+    // En el caso que quiera filtrar datos de mi consulta
+    // const usuario = await Usuario.find({},'nombre apellido google email ');
+    const [usuarios, total] = await Promise.all([
+        Usuario
+        .find({"role":"PROFESOR_ROLE"},'nombre apellido email role telefono cedula academia estado google img')
+        .skip(desde)
+        .limit(5),
+
+        Usuario.countDocuments() 
+
+    ]);
+   
+
+    res.json({
+        ok:true,
+        usuarios,
+        total
+        
+    })
+
+}
 const getUsuarios = async (req, res) =>{
 
     const desde = Number(req.query.desde) || 0 ;
@@ -11,7 +38,7 @@ const getUsuarios = async (req, res) =>{
     // const usuario = await Usuario.find({},'nombre apellido google email ');
     const [usuarios, total] = await Promise.all([
         Usuario
-        .find({},'nombre apellido email role google img')
+        .find({},'nombre apellido email role telefono cedula academia estado google img')
         .skip(desde)
         .limit(5),
 
@@ -146,5 +173,6 @@ module.exports = {
     getUsuarios,
     crearUsuarios,
     actualizarUsuario,
-    borrarUsuarios
+    borrarUsuarios,
+    getUsuarioByRoleProfesor
 }

@@ -18,7 +18,7 @@ const {
 
 const router = Router();
 
-router.get( '/:id',validarJWT ,getNotas);
+router.get( '/',validarJWT ,getNotas);
 
 
 router.post( '/', [

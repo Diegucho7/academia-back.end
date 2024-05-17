@@ -2,49 +2,51 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Materia = require('../models/materia');
+const Programas = require('../models/programa');
 
+const getProgramas = async (req, res) =>{
 
-const getMaterias = async (req, res) =>{
-
-    const materias = await Materia.find()
+    const programas = await Programas.find()
                                     .populate('usuario','nombre apellido')
-                                    .populate('curso', 'nombre')
+                                    .populate('academia','nombre  ')
+                                    .populate('materia','nombre  ')
+                                    .populate('profesor','nombre apellido ')
+                                    // .populate('curso', 'nombre')
     res.json({
         ok: true,
-        materias
+        programas
     })
 
 }
 
-const getMateriaById  = async (req, res) =>{
+const getProgramaById  = async (req, res) =>{
 
     const id = req.params.id;
 
     
     try {
-        const materia = await Materia.findById(id)
-                                        .populate('usuario','nombre apellido ')
-                                        .populate('curso', 'nombre')
-                                           
-            res.json({
+        const programa = await Profesores.findById(id)
+                                        .populate('usuario','nombre apellido img')
+                                        .populate('academia','nombre img')
+                                        .populate('materia','nombre img');
+        res.json({
             ok: true,
-            materia
+            programa
         })
         
     } catch (error) {
         console.log(error)
         res.json({
             ok: false,
-            msg: 'Hable con el administrador, materia no encontrada',
+            msg: 'Hable con el administrador, programa no encontrado',
         })
         }
 
 }
 
-const crearMaterias = async (req, res) =>{
+const crearProgramas = async (req, res) =>{
     const uid =  req.uid;
-    const materia = new Materia({
+    const programa = new Programas({
         usuario:uid,
         ...req.body
     });
@@ -52,11 +54,11 @@ const crearMaterias = async (req, res) =>{
 
     try {
 
-        const materiaDB = await materia.save();
+        const programaDB = await programa.save();
 
         res.json({
             ok: true,
-            materia: materiaDB
+            programa: programaDB
         })
 
     } catch (error) {
@@ -71,33 +73,33 @@ const crearMaterias = async (req, res) =>{
 }
 
 
-const actualizarMaterias = async(req, res) =>{
+const actualizarProgramas = async(req, res) =>{
     const id  = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const programa = await Programas.findById( id );
+        if(!programa){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrada'
+                msg: 'Programa no encontrado'
                                 })
                      }
                      
-                     const cambiosMateria = {
+                     const cambiosPrograma = {
                         ...req.body,
                         usuario: uid
                      }
 
-                const materiaActualizado = await Materia.findByIdAndUpdate( id, cambiosMateria,{new:true});
+                const programaActualizado = await Programas.findByIdAndUpdate( id, cambiosPrograma,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
         
             res.json({
             ok: true,
-            Materia: materiaActualizado
+            Programa: programaActualizado
         })
         
 
@@ -113,28 +115,28 @@ const actualizarMaterias = async(req, res) =>{
 }
 
 
-const borrarMaterias = async(req, res) =>{
+const borrarProgramas = async(req, res) =>{
 
     const id  = req.params.id;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const programa = await Programas.findById( id );
+        if(!programa){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrado'
+                msg: 'Programa no encontrado'
                                 })
                      }
                      
                     
-                await Materia.findByIdAndDelete (id);
+                await Programas.findByIdAndDelete (id);
 
                      
         
             res.json({
             ok: true,
-            msg:'Materia Eliminado'
+            msg:'Programa Eliminado'
         })
         
 
@@ -156,11 +158,9 @@ const borrarMaterias = async(req, res) =>{
 
 
 module.exports = {
-    getMaterias,
-    crearMaterias,
-    actualizarMaterias,
-    borrarMaterias,
-    getMateriaById,
-    
-    
+    getProgramas,
+    crearProgramas,
+    actualizarProgramas,
+    borrarProgramas,
+    getProgramaById
 }

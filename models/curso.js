@@ -8,6 +8,7 @@ const CursosSchema = Schema({
     img:{
         type: String
     },
+ 
     usuario: {
         required: true,
         type: Schema.Types.ObjectId,

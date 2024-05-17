@@ -2,49 +2,58 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Materia = require('../models/materia');
+const Periodos = require('../models/periodo');
 
+const getPeriodos = async (req, res) =>{
 
-const getMaterias = async (req, res) =>{
-
-    const materias = await Materia.find()
+    const periodos = await Periodos.find()
                                     .populate('usuario','nombre apellido')
+                                    .populate('anio','nombre  ')
+                                    .populate('mes','nombre ')
+                                    .populate('academia','nombre  ')
                                     .populate('curso', 'nombre')
+                                    .populate('profesor', 'nombre apellido')
+                                    .populate('modulos')
+                                    .populate('valor')
     res.json({
         ok: true,
-        materias
+        periodos
     })
 
 }
 
-const getMateriaById  = async (req, res) =>{
+const getPeriodoById  = async (req, res) =>{
 
     const id = req.params.id;
 
     
     try {
-        const materia = await Materia.findById(id)
-                                        .populate('usuario','nombre apellido ')
+        const periodo = await Periodos.findById(id)
+                                        .populate('usuario','nombre apellido img')
+                                        .populate('anio')
+                                        .populate('mes')
+                                        .populate('academia','nombre img')
+                                        .populate('profesor','nombre apellido ')
                                         .populate('curso', 'nombre')
-                                           
-            res.json({
+                                        .populate('modulos')
+        res.json({
             ok: true,
-            materia
+            periodo
         })
         
     } catch (error) {
         console.log(error)
         res.json({
             ok: false,
-            msg: 'Hable con el administrador, materia no encontrada',
+            msg: 'Hable con el administrador, programa no encontrado',
         })
         }
 
 }
 
-const crearMaterias = async (req, res) =>{
+const crearPeriodos = async (req, res) =>{
     const uid =  req.uid;
-    const materia = new Materia({
+    const periodo = new Periodos({
         usuario:uid,
         ...req.body
     });
@@ -52,11 +61,11 @@ const crearMaterias = async (req, res) =>{
 
     try {
 
-        const materiaDB = await materia.save();
+        const periodoDB = await periodo.save();
 
         res.json({
             ok: true,
-            materia: materiaDB
+            periodo: periodoDB
         })
 
     } catch (error) {
@@ -71,33 +80,33 @@ const crearMaterias = async (req, res) =>{
 }
 
 
-const actualizarMaterias = async(req, res) =>{
+const actualizarPeriodos = async(req, res) =>{
     const id  = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const periodo = await Periodos.findById( id );
+        if(!periodo){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrada'
+                msg: 'Periodo no encontrado'
                                 })
                      }
                      
-                     const cambiosMateria = {
+                     const cambiosPeriodo = {
                         ...req.body,
                         usuario: uid
                      }
 
-                const materiaActualizado = await Materia.findByIdAndUpdate( id, cambiosMateria,{new:true});
+                const periodoActualizado = await Periodos.findByIdAndUpdate( id, cambiosPeriodo,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
         
             res.json({
             ok: true,
-            Materia: materiaActualizado
+            Periodo: periodoActualizado
         })
         
 
@@ -113,28 +122,28 @@ const actualizarMaterias = async(req, res) =>{
 }
 
 
-const borrarMaterias = async(req, res) =>{
+const borrarPeriodos = async(req, res) =>{
 
     const id  = req.params.id;
 
     try {
 
-        const materia = await Materia.findById( id );
-        if(!materia){
+        const periodo = await Periodos.findById( id );
+        if(!periodo){
             res.status(500).json({
                 ok: false,
-                msg: 'Materia no encontrado'
+                msg: 'Periodo no encontrado'
                                 })
                      }
                      
                     
-                await Materia.findByIdAndDelete (id);
+                await Periodos.findByIdAndDelete (id);
 
                      
         
             res.json({
             ok: true,
-            msg:'Materia Eliminado'
+            msg:'Periodo Eliminado'
         })
         
 
@@ -156,11 +165,9 @@ const borrarMaterias = async(req, res) =>{
 
 
 module.exports = {
-    getMaterias,
-    crearMaterias,
-    actualizarMaterias,
-    borrarMaterias,
-    getMateriaById,
-    
-    
+    getPeriodos,
+    crearPeriodos,
+    actualizarPeriodos,
+    borrarPeriodos,
+    getPeriodoById
 }

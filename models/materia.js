@@ -8,16 +8,17 @@ const MateriasSchema = Schema({
     img:{
         type: String
     },
-    usuario: {
-        required: true,
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario'
-    },
     curso: {
         required: true,
         type: Schema.Types.ObjectId,
         ref: 'Curso'
+    },
+    usuario: {
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
     }
+    
 },  { collection: 'materias'});
 
 MateriasSchema.method('toJSON', function() {

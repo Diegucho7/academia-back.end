@@ -14,7 +14,7 @@ const {
     actualizarMaterias,
     borrarMaterias,
     getMateriaById,
-    getMateriasbyCurse
+    
 } = require ('../controllers/materias')
 
 const router = Router();

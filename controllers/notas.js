@@ -4,6 +4,7 @@ const {generarJwt} = require('../helpers/jwt')
 
 const Nota = require('../models/nota');
 const Materia = require('../models/materia');
+const Estudiante = require('../models/estudiante');
 const Curso = require('../models/curso');
 
 
@@ -21,15 +22,28 @@ const Curso = require('../models/curso');
     // }
 
 const getNotas = async (req, res) =>{
-    const curso = req.params.id;
+    
+    
+    // const curso = req.params.id;
 
-    const materias = await Materia.where({curso:(curso)})
+    const {estudiante, curso} = req.body;
+
+
+    // const estudiantes = await Estudiante.where({curso:(curso)});
+    const materiasMostrar = await Estudiante.where ({curso:(curso)} )     
+                                                .populate('usuario','nombre')
+                                                .populate('curso','nombre')                           
+
+    const materias = await Materia.where({curso:(curso)} )
                                         .populate('usuario','nombre')
                                         .populate('curso','nombre')
+
+
     res.json({
         ok: true,
-        materias,
-        curso
+        // materiasMostrar,
+        // estudiante,
+        materias
     })
 
 }

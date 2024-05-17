@@ -24,7 +24,8 @@ const getProfesorById  = async (req, res) =>{
     try {
         const profesor = await Profesores.findById(id)
                                         .populate('usuario','nombre apellido img')
-                                        .populate('academia','nombre img');
+                                        .populate('academia','nombre img')
+                                        // .populate('materia','nombre img');
         res.json({
             ok: true,
             profesor

@@ -29,6 +29,8 @@ app.use('/api/profesores', require('./router/profesores'));
 app.use('/api/estudiantes', require('./router/estudiantes'));
 app.use('/api/cursos', require('./router/cursos'));
 app.use('/api/materias', require('./router/materias'));
+app.use('/api/programas', require('./router/programas'));
+app.use('/api/periodos', require('./router/periodos'));
 app.use('/api/notas', require('./router/notas'));
 app.use('/api/todo', require('./router/busquedas'));
 app.use('/api/todo/coleccion', require('./router/busquedas'));

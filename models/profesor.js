@@ -21,11 +21,16 @@ const ProfesoresSchema = Schema({
         required: true,
         type: Schema.Types.ObjectId,
         ref: 'Academia'
-    }
+    },
+    // materia: {
+    //     required: true,
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Materia'
+    // }
 },  { collection: 'profesores'});
 
 ProfesoresSchema.method('toJSON', function() {
-    // const { __v, password, ...object } = this.toObject();
+
     const { __v, ...object} = this.toObject();
     return object;
 })
