@@ -7,8 +7,12 @@ const Estudiante = require('../models/estudiante');
 const getEstudiantes = async (req, res) =>{
 
     const estudiantes = await Estudiante.find()
-                                    .populate('usuario','nombre ')
-                                      .populate('curso','nombre  ')
+                                    .populate('usuario','nombre apellido')
+                                      .populate('curso','anio mes curso' )
+                                      .populate({
+                                        path: 'curso',
+                                        populate: { path: 'curso', 'select': 'nombre' }
+                                     });
     res.json({
         ok: true,
         estudiantes
@@ -24,7 +28,11 @@ const getEstudianteById  = async (req, res) =>{
     try {
         const estudiante = await Estudiante.findById(id)
                                         .populate('usuario','nombre img ')
-                                            .populate('curso','nombre img');
+                                        .populate('curso','anio mes curso' )
+                                        .populate({
+                                          path: 'curso',
+                                          populate: { path: 'curso', 'select': 'nombre' }
+                                       });
             res.json({
             ok: true,
             estudiante
@@ -45,7 +53,7 @@ const crearEstudiantes = async (req, res) =>{
     const estudiante = new Estudiante({
         usuario:uid,
         ...req.body
-    });
+    }); 
     
 
     try {
@@ -75,11 +83,12 @@ const actualizarEstudiantes = async(req, res) =>{
 
     try {
 
-        const estudiante = await Estudiante.findById( id );
+        const estudiante = await Estudiante.findById(id);
         if(!estudiante){
             res.status(500).json({
                 ok: false,
-                msg: 'Estudiante no encontrada'
+                msg: 'Estudiante no encontrado'
+                
                                 })
                      }
                      
@@ -95,12 +104,9 @@ const actualizarEstudiantes = async(req, res) =>{
         
             res.json({
             ok: true,
-            Materia: estudianteActualizado
+            Estudiante: estudianteActualizado
         })
         
-
-
-
     } catch (error) {
         console.log(error);
         res.status(500).json({

@@ -33,7 +33,8 @@
                                 { titulo: 'Usuarios', url: 'usuarios' },
                                 { titulo: 'Notas', url: 'notas' },
                                 { titulo: 'Resultados', url: 'resultados' },
-                                { titulo: 'Estudiantes', url: 'estudiantes' },
+                                { titulo: 'Estudiantes', url: 'estudiantes'  },
+                                { titulo: 'Profesores', url: 'profesores'  },
                                 { titulo: 'Periodos', url: 'periodos' },
                                 { titulo: 'Academias', url: 'academias' },
         )

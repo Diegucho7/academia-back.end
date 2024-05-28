@@ -23,7 +23,7 @@ router.get( '/',validarJWT ,getEstudiantes);
 
 router.post( '/', [
     validarJWT,
-    check('nombre', 'El nombre del estudiante es necesario').not().isEmpty(),
+    check('curso', 'El curso es necesario').not().isEmpty(),
     validarCampos
 ] 
 ,crearEstudiantes);
@@ -31,7 +31,7 @@ router.post( '/', [
 router.put( '/:id',
 [
     validarJWT,
-    check('nombre', 'El nombre del estudiante es necesario').not().isEmpty(),
+    check('curso', 'El nombre del estudiante es necesario').not().isEmpty(),
 ]
 ,actualizarEstudiantes);
 

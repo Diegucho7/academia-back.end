@@ -1,16 +1,18 @@
 const {Schema, model} = require('mongoose');
 
 const NotasSchema = Schema({
-    valor:{
-        type: Number,
-        required: true
-    },
+    
 
     estudiante:{
-        type: String,
-        require: true
+        require: true,
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
     },
-
+    profesor: {
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
     usuario: {
         required: true,
         type: Schema.Types.ObjectId,
@@ -21,11 +23,11 @@ const NotasSchema = Schema({
         type: Schema.Types.ObjectId,
         ref: 'Curso'
     },
-    materia: {
+    modulos:[{
         required: true,
-        type: Schema.Types.ObjectId,
-        ref: 'Materia'
-    }
+        type: Number,
+        
+    }],
 },  { collection: 'notas'});
 
 NotasSchema.method('toJSON', function() {

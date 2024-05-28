@@ -5,10 +5,8 @@ const EstudiantesSchema = Schema({
     img:{
         type: String
     },
-    nombre:{
-        type: String
-    }
-    ,
+    
+    
     usuario: {
         required: true,
         type: Schema.Types.ObjectId,
@@ -17,8 +15,16 @@ const EstudiantesSchema = Schema({
     curso: {
         required: true,
         type: Schema.Types.ObjectId,
-        ref: 'Curso'
-    }
+        ref: 'Periodo'
+        
+    },
+    // nombreCurso:{
+    //     require: true,
+    //     type: String,
+    //     ref: 'Curso'
+    // }
+  
+    
 },  { collection: 'estudiantes'});
 
 EstudiantesSchema.method('toJSON', function() {

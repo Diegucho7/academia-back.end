@@ -1,27 +1,24 @@
 const {Schema, model} = require('mongoose');
 
 const ProfesoresSchema = Schema({
-    nombre:{
-        type: String,
-        required: true
-    },
-    apellido:{
-        type: String,
-        required: true
-    },
-    img:{
-        type: String
-    },
-    usuario: {
+    estudiante:{
         required: true,
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    academia: {
+    curso:{
         required: true,
         type: Schema.Types.ObjectId,
-        ref: 'Academia'
+        ref: 'Curso'
     },
+    modulos:[{
+        required: true,
+        type: Number,
+        notas:[{
+            required: true,
+            type: Number
+        }],
+    }],
     // materia: {
     //     required: true,
     //     type: Schema.Types.ObjectId,

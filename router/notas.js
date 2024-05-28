@@ -22,12 +22,12 @@ router.get( '/',validarJWT ,getNotas);
 
 
 router.post( '/', [
-    validarJWT,
-    check('valor', 'El valor de la nota es necesario').not().isEmpty(),
-    check('materia', 'El id del curso es necesario').not().isEmpty(),
-    check('materia', 'El curso id, debe de ser válido').isMongoId(),
-    check('estudiante', 'El id del curso es necesario').not().isEmpty(),
-    check('estudiante', 'El estudiante id, debe de ser válido').isMongoId(),
+    // validarJWT,
+    // check('valor', 'El valor de la nota es necesario').not().isEmpty(),
+    // check('materia', 'El id del curso es necesario').not().isEmpty(),
+    // check('materia', 'El curso id, debe de ser válido').isMongoId(),
+    // check('estudiante', 'El id del curso es necesario').not().isEmpty(),
+    // check('estudiante', 'El estudiante id, debe de ser válido').isMongoId(),
     validarCampos
 ] 
 ,crearNotas);
