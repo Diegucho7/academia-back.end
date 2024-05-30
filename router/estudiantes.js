@@ -13,12 +13,14 @@ const {
     crearEstudiantes,
     actualizarEstudiantes,
     borrarEstudiantes,
-    getEstudianteById
+    getEstudianteById,
+    getUsuarioByCurso
 } = require ('../controllers/estudiantes')
 
 const router = Router();
 
 router.get( '/',validarJWT ,getEstudiantes);
+router.get( '/curso',validarJWT ,getUsuarioByCurso);
 
 
 router.post( '/', [

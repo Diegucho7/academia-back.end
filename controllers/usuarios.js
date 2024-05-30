@@ -30,6 +30,56 @@ const getUsuarioByRoleProfesor  = async (req, res) =>{
     })
 
 }
+const getUsuarioByCurso  = async (req, res) =>{
+
+    const desde = Number(req.query.desde) || 0 ;
+    
+    // En el caso que quiera filtrar datos de mi consulta
+    // const usuario = await Usuario.find({},'nombre apellido google email ');
+    const [usuarios, total] = await Promise.all([
+        Usuario
+        .find({"cedula": '6647d598dc0644dd15c07c99'},'nombre apellido email role telefono cedula academia estado google img')
+        .skip(desde)
+        .limit(5),
+
+        Usuario.countDocuments() 
+
+    ]);
+   
+
+    res.json({
+        ok:true,
+        usuarios,
+        total
+        
+    })
+
+}
+const getUsuarioByRoleEstudiante  = async (req, res) =>{
+
+    const desde = Number(req.query.desde) || 0 ;
+    
+    // En el caso que quiera filtrar datos de mi consulta
+    // const usuario = await Usuario.find({},'nombre apellido google email ');
+    const [usuarios, total] = await Promise.all([
+        Usuario
+        .find({"role":"ESTUDIANTE_ROLE"},'nombre apellido email role telefono cedula academia estado google img')
+        .skip(desde)
+        .limit(5),
+
+        Usuario.countDocuments() 
+
+    ]);
+   
+
+    res.json({
+        ok:true,
+        usuarios,
+        total
+        
+    })
+
+}
 const getUsuarios = async (req, res) =>{
 
     const desde = Number(req.query.desde) || 0 ;
@@ -174,5 +224,7 @@ module.exports = {
     crearUsuarios,
     actualizarUsuario,
     borrarUsuarios,
-    getUsuarioByRoleProfesor
+    getUsuarioByRoleProfesor,
+    getUsuarioByRoleEstudiante,
+    getUsuarioByCurso
 }
