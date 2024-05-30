@@ -20,7 +20,7 @@ const {
 const router = Router();
 
 router.get( '/',validarJWT ,getEstudiantes);
-router.get( '/curso',validarJWT ,getUsuarioByCurso);
+router.get( '/curso/:id',validarJWT ,getUsuarioByCurso);
 
 
 router.post( '/', [

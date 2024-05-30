@@ -9,7 +9,9 @@ const { ObjectId } = require('mongoose').Types;
 
 
 const getUsuarioByCurso  = async (req, res) =>{
-    const cursoId = '6647d598dc0644dd15c07c99'; // Reemplaza esto con el ID del curso que estás buscando
+    
+    const cursoId = req.params.id;
+    // const cursoId = '6647d598dc0644dd15c07c99'; // Reemplaza esto con el ID del curso que estás buscando
     
     const desde = Number(req.query.desde) || 0 ;
     
