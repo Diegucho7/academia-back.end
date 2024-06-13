@@ -20,7 +20,9 @@
       ]
 
       if (role === 'ESTUDIANTE_ROLE') {
-        menu[0].submenu.unshift({ titulo: 'Notas', url: 'notas' })
+        menu[0].submenu.unshift({ titulo: 'Notas', url: 'notas' },
+        { titulo: 'Estudiantes', url: 'estudiantes'  },
+        )
       }
 
       if(role === 'ADMIN_ROLE'){

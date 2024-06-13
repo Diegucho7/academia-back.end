@@ -3,7 +3,7 @@
     Ruta = './api/usuarios'
 */
 
-const {getUsuarios,getUsuarioByRoleProfesor,getUsuarioByRoleEstudiante,getUsuarioByCurso,crearUsuarios, actualizarUsuario, borrarUsuarios} = require('../controllers/usuarios')
+const {getUsuarios,getUsuarioByRoleProfesor,getUsuarioById,getUsuarioByRoleEstudiante,getUsuarioByCurso,crearUsuarios, actualizarUsuario, borrarUsuarios} = require('../controllers/usuarios')
 const {Router} = require('express');
 const {check} = require('express-validator');
 const { validarCampos } = require ('../middleware/validar-campos');
@@ -12,9 +12,10 @@ const { validarJWT, validarADMIN_ROLE,validarADMIN_ROLE_o_mismoUsuario } = requi
 const router = Router();
 
 router.get( '/profesores',validarJWT ,getUsuarioByRoleProfesor);
-// router.get( '/estudiantes',validarJWT ,getUsuarioByRoleEstudiante);
-router.get( '/cursos/',validarJWT ,getUsuarioByCurso);
+router.get( '/estudiantes',validarJWT ,getUsuarioByRoleEstudiante);
+router.get( '/cursos/:id',validarJWT ,getUsuarioByCurso);
 router.get( '/',validarJWT ,getUsuarios);
+router.get( '/:id',validarJWT ,getUsuarioById);
 router.post( '/', [
     
     check('nombre', 'El nombre es obligatorio').not().isEmpty(),
