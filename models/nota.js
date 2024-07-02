@@ -2,30 +2,31 @@ const {Schema, model} = require('mongoose');
 
 const NotasSchema = Schema({
     
+    usuario: {
+        required: false,
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
 
     estudiante:{
         require: true,
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    profesor: {
+   
+    periodo: {
         required: true,
         type: Schema.Types.ObjectId,
-        ref: 'Usuario'
-    },
-    usuario: {
-        required: true,
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario'
-    },
-    curso: {
-        required: true,
-        type: Schema.Types.ObjectId,
-        ref: 'Curso'
+        ref: 'Periodo'
     },
     modulos:[{
         required: true,
         type: Number,
+        modulos:[{
+            required: true,
+            type: Number
+        }],
+       
         
     }],
 },  { collection: 'notas'});

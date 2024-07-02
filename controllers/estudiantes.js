@@ -20,7 +20,7 @@ const getUsuarioByCurso  = async (req, res) =>{
     const [estudiante, total] = await Promise.all([
         Estudiante
         .find({curso: cursoId})
-                                        .populate('usuario','nombre apellido img')
+                                        .populate('usuario','id nombre apellido')
         .skip(desde)
         .limit(5),
 
@@ -40,7 +40,7 @@ const getUsuarioByCurso  = async (req, res) =>{
 const getEstudiantes = async (req, res) =>{
 
     const estudiantes = await Estudiante.find()
-                                    .populate('usuario','nombre apellido')
+                                    .populate('usuario',' ')
                                       .populate('curso','anio mes curso' )
                                       .populate({
                                         path: 'curso',

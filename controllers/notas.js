@@ -9,43 +9,29 @@ const Curso = require('../models/curso');
 
 
 
-    // const getMaterias = async (req, res) =>{
-    //     const curso = req.params.id;    
-    //     const materias = await Materia.where({ curso: (curso) })
-    //                                     .populate('usuario','nombre ')
-    //                                     .populate('curso','nombre  ')
-    //     res.json({
-    //         ok: true,
-    //         materias
-    //     })
-    
-    // }
 
 const getNotas = async (req, res) =>{
     
-    
-    // const curso = req.params.id;
+   
+try {
 
-    const {estudiante, curso} = req.body;
-
-
-    // const estudiantes = await Estudiante.where({curso:(curso)});
-    const materiasMostrar = await Estudiante.where ({curso:(curso)} )     
-                                                .populate('usuario','nombre')
-                                                .populate('curso','nombre')                           
-
-    const materias = await Materia.where({curso:(curso)} )
-                                        .populate('usuario','nombre')
-                                        .populate('curso','nombre')
-
-
+    const notas = await Nota.find()
+                                    .populate('estudiante','nombre apellido')
+                                    .populate('periodo', 'mes anio curso')
+                                    .populate({
+                                        path: 'periodo',
+                                        populate: { path: 'curso', 'select': 'nombre' }
+                                     });                               
+                            
     res.json({
         ok: true,
-        // materiasMostrar,
-        // estudiante,
-        materias
+        notas
     })
 
+
+}catch (error) {
+    
+}
 }
 
 
