@@ -60,8 +60,8 @@ const getUsuarioById  = async (req, res) =>{
     // const usuario = await Usuario.find({},'nombre apellido google email ');
     const usuarios = await Promise.all([
         Usuario
-        .findById(uid,' ')
-                                    // .populate('usuario','nombre apellido')
+        .findById(uid)
+                                    // .populate('nombre','_id')
                                     //   .populate('curso','anio mes curso' )
                                     //   .populate({
                                     //     path: 'curso',

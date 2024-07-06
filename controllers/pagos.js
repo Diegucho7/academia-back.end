@@ -2,15 +2,14 @@ const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
-const Nota = require('../models/nota');
+const Pago = require('../models/pago');
 
-
-const getNotas = async (req, res) =>{
+const getPagos = async (req, res) =>{
     
    
 try {
 
-    const notas = await Nota.find()
+    const pagos = await Pago.find()
                                     .populate('estudiante','nombre apellido')
                                     .populate('periodo', 'mes anio curso')
                                     .populate({path: 'periodo', 
@@ -23,7 +22,7 @@ try {
                             
     res.json({
         ok: true,
-        notas
+        pagos
     })
 
 
@@ -33,13 +32,13 @@ try {
 }
 
 
-const getNotaById  = async (req, res) =>{
+const getPagoById  = async (req, res) =>{
 
     const id = req.params.id;
 
     
     try {
-        const nota = await Nota.findById(id)
+        const pago = await Pago.findById(id)
                                             .populate('estudiante','nombre apellido')
                                             .populate('periodo', 'mes anio curso')
                                             .populate({path: 'periodo', 
@@ -51,7 +50,7 @@ const getNotaById  = async (req, res) =>{
                                             });                  
             res.json({
             ok: true,
-            nota
+            pago
         })
         
     } catch (error) {
@@ -64,9 +63,9 @@ const getNotaById  = async (req, res) =>{
 
 }
 
-const crearNotas = async (req, res) =>{
+const crearPagos = async (req, res) =>{
     const uid =  req.uid;
-    const nota = new Nota({
+    const pago = new Pago({
         usuario:uid,
         ...req.body
     });
@@ -74,11 +73,11 @@ const crearNotas = async (req, res) =>{
 
     try {
 
-        const notaDB = await nota.save();
+        const pagoDB = await pago.save();
 
         res.json({
             ok: true,
-            nota: notaDB
+            pago: pagoDB
         })
 
     } catch (error) {
@@ -93,33 +92,33 @@ const crearNotas = async (req, res) =>{
 }
 
 
-const actualizarNotas = async(req, res) =>{
+const actualizarPagos = async(req, res) =>{
     const id  = req.params.id;
     const uid = req.uid;
 
     try {
 
-        const nota = await Nota.findById( id );
-        if(!nota){
+        const pago = await Pago.findById( id );
+        if(!pago){
             res.status(500).json({
                 ok: false,
-                msg: 'Nota no encontrada'
+                msg: 'Pago no encontrada'
                                 })
                      }
                      
-                     const cambiosNota = {
+                     const cambiosPago = {
                         ...req.body,
                         usuario: uid
                      }
 
-                const notaActualizado = await Nota.findByIdAndUpdate( id, cambiosNota,{new:true});
+                const pagoActualizado = await Pago.findByIdAndUpdate( id, cambiosPago,{new:true});
 
             // hospital.nombre = req.body.nombre;
                      
         
             res.json({
             ok: true,
-            Nota: notaActualizado
+            Pago: pagoActualizado
         })
         
 
@@ -135,28 +134,28 @@ const actualizarNotas = async(req, res) =>{
 }
 
 
-const borrarNotas = async(req, res) =>{
+const borrarPagos = async(req, res) =>{
 
     const id  = req.params.id;
 
     try {
 
-        const nota = await Nota.findById( id );
+        const nota = await Pago.findById( id );
         if(!nota){
             res.status(500).json({
                 ok: false,
-                msg: 'Nota no encontrado'
+                msg: 'Pago no encontrado'
                                 })
                      }
                      
                     
-                await Nota.findByIdAndDelete (id);
+                await Pago.findByIdAndDelete (id);
 
                      
         
             res.json({
             ok: true,
-            msg:'Nota Eliminada'
+            msg:'Pago Eliminado'
         })
         
 
@@ -178,9 +177,9 @@ const borrarNotas = async(req, res) =>{
 
 
 module.exports = {
-    getNotas,
-    crearNotas,
-    actualizarNotas,
-    borrarNotas,
-    getNotaById
+    getPagos,
+    crearPagos,
+    actualizarPagos,
+    borrarPagos,
+    getPagoById
 }

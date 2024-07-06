@@ -1,6 +1,6 @@
 /*
 Academias
-ruta: '/api/academias'
+ruta: '/api/estudiantes'
 */
 
 const {Router} = require('express');
@@ -14,13 +14,15 @@ const {
     actualizarEstudiantes,
     borrarEstudiantes,
     getEstudianteById,
-    getUsuarioByCurso
+    getUsuarioByCurso,
+    getCursoByEstudiante
 } = require ('../controllers/estudiantes')
 
 const router = Router();
 
 router.get( '/',validarJWT ,getEstudiantes);
 router.get( '/curso/:id',validarJWT ,getUsuarioByCurso);
+router.get( '/estudiante/:id',validarJWT ,getCursoByEstudiante);
 
 
 router.post( '/', [

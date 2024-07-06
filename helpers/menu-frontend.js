@@ -39,6 +39,8 @@
                                 { titulo: 'Profesores', url: 'profesores'  },
                                 { titulo: 'Periodos', url: 'periodos' },
                                 { titulo: 'Academias', url: 'academias' },
+                                { titulo: 'Revisión de Notas', url: 'revision' },
+                                { titulo: 'Pagos', url: 'pagos' },
         )
         
 

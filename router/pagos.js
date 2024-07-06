@@ -1,6 +1,6 @@
 /*
-Notas
-ruta: '/api/notas'
+Pagos
+ruta: '/api/pagos'
 */
 
 const {Router} = require('express');
@@ -9,16 +9,16 @@ const { validarCampos } = require ('../middleware/validar-campos');
 const { validarJWT } = require ('../middleware/validar-jwt');
 
 const {
-    getNotas,
-    crearNotas,
-    actualizarNotas,
-    borrarNotas,
-    getNotaById
-} = require ('../controllers/notas')
+    getPagos,
+    crearPagos,
+    actualizarPagos,
+    borrarPagos,
+    getPagoById
+} = require ('../controllers/pagos')
 
 const router = Router();
 
-router.get( '/',validarJWT ,getNotas);
+router.get( '/',validarJWT ,getPagos);
 
 
 router.post( '/', [
@@ -30,25 +30,25 @@ router.post( '/', [
     // check('estudiante', 'El estudiante id, debe de ser válido').isMongoId(),
     validarCampos
 ] 
-,crearNotas);
+,crearPagos);
 
 router.put( '/:id',
 [
     validarJWT
 ]
-,actualizarNotas);
+,actualizarPagos);
 
 router.delete( '/:id',
 [
 validarJWT
 ],
-borrarNotas);
+borrarPagos);
 
 router.get('/:id',
 [
 validarJWT
 ],
-getNotaById
+getPagoById
 );
 
 

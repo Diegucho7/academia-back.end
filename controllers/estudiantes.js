@@ -3,7 +3,7 @@ const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 const Usuario = require('../models/usuario');
 const Estudiante = require('../models/estudiante');
-const estudiante = require('../models/estudiante');
+const Periodo = require('../models/periodo');
 const { ObjectId } = require('mongoose').Types;
 
 
@@ -32,6 +32,44 @@ const getUsuarioByCurso  = async (req, res) =>{
     res.json({
         ok:true,
         estudiante,
+        // total
+        
+    })
+
+}
+
+
+const getCursoByEstudiante  = async (req, res) =>{
+    
+    const EstudianteId = req.params.id;
+    // const cursoId = '6647d598dc0644dd15c07c99'; // Reemplaza esto con el ID del curso que estás buscando
+    
+    const desde = Number(req.query.desde) || 0 ;
+    
+    // En el caso que quiera filtrar datos de mi consulta
+    // const usuario = await Usuario.find({},'nombre apellido google email ');
+    const [curso, total] = await Promise.all([
+        Estudiante
+        .find({usuario: EstudianteId})
+                                        .populate('curso',' ')
+                                        .skip(desde).populate({
+                                            path: 'curso',
+                                            populate: { path: 'curso', 'select': 'nombre' }
+                                        })
+                                        .skip(desde).populate({
+                                            path: 'curso',
+                                            populate: { path: 'academia ', 'select': 'nombre' }
+                                        })
+        .limit(5),
+
+        Estudiante.countDocuments() 
+
+    ]);
+   
+
+    res.json({
+        ok:true,
+        curso,
         // total
         
     })
@@ -193,6 +231,7 @@ const borrarEstudiantes = async(req, res) =>{
 
 
 module.exports = {
+    getCursoByEstudiante,
     getUsuarioByCurso,
     getEstudiantes,
     crearEstudiantes,
