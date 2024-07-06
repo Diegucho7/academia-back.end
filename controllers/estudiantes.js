@@ -22,7 +22,7 @@ const getUsuarioByCurso  = async (req, res) =>{
         .find({curso: cursoId})
                                         .populate('usuario','id nombre apellido')
         .skip(desde)
-        .limit(5),
+        .limit(30),
 
         Estudiante.countDocuments() 
 
@@ -58,9 +58,9 @@ const getCursoByEstudiante  = async (req, res) =>{
                                         })
                                         .skip(desde).populate({
                                             path: 'curso',
-                                            populate: { path: 'academia ', 'select': 'nombre' }
+                                            populate: { path: 'academia', 'select': 'nombre' }
                                         })
-        .limit(5),
+        .limit(10),
 
         Estudiante.countDocuments() 
 
