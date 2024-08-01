@@ -37,6 +37,7 @@ app.use('/api/todo/coleccion', require('./router/busquedas'));
 app.use('/api/login', require('./router/auth'));
 app.use('/api/uploads', require('./router/uploads'));
 app.use('/api/pagos', require('./router/pagos'));
+app.use('/api/recibos', require('./router/recibos'));
 
 
     

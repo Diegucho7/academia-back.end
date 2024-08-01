@@ -15,7 +15,7 @@ const getUsuarioByRoleProfesor  = async (req, res) =>{
         Usuario
         .find({"role":"PROFESOR_ROLE"},'nombre apellido email role telefono cedula academia estado google img')
         .skip(desde)
-        .limit(5),
+        .limit(10),
 
         Usuario.countDocuments() 
 
@@ -92,7 +92,7 @@ const getUsuarioByRoleEstudiante  = async (req, res) =>{
         Usuario
         .find({"role":"ESTUDIANTE_ROLE"},'nombre apellido email role telefono cedula academia estado google img')
         .skip(desde)
-        .limit(5),
+        .limit(20),
 
         Usuario.countDocuments() 
 

@@ -98,11 +98,48 @@ const validarADMIN_ROLE_o_mismoUsuario = async(req, resp, next) =>{
             })
         }
 }
+const validarADMIN_ROLE_o_Estudiante = async(req, resp, next) =>{
+        
+        const uid = req.uid;
+        const id = req.params.id;
+        try {
+
+            const usuarioDb = await Usuario.findById(uid);
+
+            if (!usuarioDb) {
+                return resp.status(404).json({
+                    ok: false,
+                    msg: 'Usuario no existe'                
+
+                })
+            }
+            if (usuarioDb.role === 'ADMIN_ROLE'  || usuarioDb.role === 'ESTUDIANTE_ROLE') {
+            next();
+                
+            }else{  
+                return resp.status(403).json({
+                    ok: false,
+                    msg: 'No tiene permisos para realizar la función'                
+
+                })  ;
+
+            }
+
+             
+            
+        } catch (error) {
+            resp.status(500).json({
+                ok:false,
+                msg: 'Hable con el administrador'
+            })
+        }
+}
 
 
 module.exports = {
     validarJWT,
     validarADMIN_ROLE,
-    validarADMIN_ROLE_o_mismoUsuario
+    validarADMIN_ROLE_o_mismoUsuario,
+    validarADMIN_ROLE_o_Estudiante
         
 }

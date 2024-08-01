@@ -4,12 +4,7 @@ const PagosSchema = Schema({
    
     img:
     [{
-        required: false,
-        type: String,
-        img:[{
-            required: false,
-            type: String
-        }]
+   type: String,
     }],
     
     usuario: {
@@ -41,7 +36,7 @@ const PagosSchema = Schema({
         default: false,
         required: true,
         type: Boolean
-    }
+    },
 
    
   

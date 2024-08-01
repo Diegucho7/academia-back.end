@@ -2,9 +2,9 @@ const {Schema, model} = require('mongoose');
 
 const EstudiantesSchema = Schema({
    
-    img:{
-        type: String
-    },
+    // img:{
+    //     type: String
+    // },
     
     
     usuario: {
@@ -18,12 +18,51 @@ const EstudiantesSchema = Schema({
         ref: 'Periodo'
         
     },
-    // nombreCurso:{
-    //     require: true,
-    //     type: String,
-    //     ref: 'Curso'
-    // }
-  
+
+
+    // prueba de unión
+
+    modulos:[{
+        default:[0],
+        required: true,
+        type: Number,
+        modulos:[{
+            
+            required: true,
+            type: Number,
+            
+        }]
+    }],
+    estado:{
+        default: false,
+        required: true,
+        type: Boolean
+    },
+    aprobado:{
+        default: false,
+        required: true,
+        type: Boolean
+    },
+    // pagos:[{
+        
+    //     required: true,
+    //     type: Number,
+    //     pagos:[{
+            
+    //         required: true,
+    //         type: Number,
+            
+    //     }]
+    // }],
+    pagos: {
+        type: Array,
+        default: [0],
+        required: true,
+        items: {
+            type: Number,
+            required: true
+        }
+    }
     
 },  { collection: 'estudiantes'});
 

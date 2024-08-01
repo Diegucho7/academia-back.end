@@ -22,7 +22,7 @@ const getUsuarioByCurso  = async (req, res) =>{
         .find({curso: cursoId})
                                         .populate('usuario','id nombre apellido')
         .skip(desde)
-        .limit(30),
+        .limit(10),
 
         Estudiante.countDocuments() 
 
@@ -83,7 +83,13 @@ const getEstudiantes = async (req, res) =>{
                                       .populate({
                                         path: 'curso',
                                         populate: { path: 'curso', 'select': 'nombre' }
-                                     });
+                                     })
+                                     
+                                      .populate({
+                                        path: 'curso',
+                                        populate: { path: 'academia', ' select': 'nombre' }
+                                     })
+                                     ;
     res.json({
         ok: true,
         estudiantes
@@ -98,11 +104,17 @@ const getEstudianteById  = async (req, res) =>{
     
     try {
         const estudiante = await Estudiante.findById(id)
-                                        .populate('usuario','nombre img ')
+                                        .populate('usuario','nombre apellido ')
                                         .populate('curso','anio mes curso' )
+                                        // .populate('periodo','anio mes curso' )
+                                        .populate('modulos','')
                                         .populate({
                                           path: 'curso',
                                           populate: { path: 'curso', 'select': 'nombre' }
+                                       })
+                                        .populate({
+                                          path: 'curso',
+                                          populate: { path: 'academia', 'select': 'nombre' }
                                        });
             res.json({
             ok: true,
@@ -165,7 +177,7 @@ const actualizarEstudiantes = async(req, res) =>{
                      
                      const cambiosEstudiante = {
                         ...req.body,
-                        usuario: uid
+                        // usuario: uid
                      }
 
                 const estudianteActualizado = await Estudiante.findByIdAndUpdate( id, cambiosEstudiante,{new:true});

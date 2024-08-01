@@ -3,6 +3,9 @@ const { response } = require ('express');
 const Usuario = require('../models/usuario');
 const Profesores = require('../models/profesor');
 const Academia = require('../models/academia');
+const Estudiante = require('../models/estudiante');
+const usuario = require('../models/usuario');
+const Periodos = require('../models/periodo');
 
 const getTodo = async (req, res = response) =>{
     
@@ -10,17 +13,20 @@ const getTodo = async (req, res = response) =>{
     const regex = new RegExp (busqueda, 'i');
 
 
-    const [usuarios, profesores, academias] = await Promise.all([
+    const [usuarios, profesores, academias,estudiantes] = await Promise.all([
               Usuario.find({nombre: regex }),
              Profesores.find({nombre: regex }),
-              Academia.find({nombre: regex })
+              Academia.find({nombre: regex }),
+            //   Estudiante.find({usuario: regex })
+              Estudiante.find({usuario: busqueda })
 ])
 
     res.json({
         ok: true,
         usuarios,
         profesores,
-        academias
+        academias,
+        estudiantes
     })
 
 }
@@ -37,13 +43,7 @@ const getDocumentoColeccion = async (req, res = response) =>{
     let data = [];
 
     switch (tabla) {
-                case 'profesores':
-                Profesores.find({nombre: regex });
-                data = await Medicos.find({nombre: regex })
-                                    .populate('usuario','nombre img')
-                                    .populate('academia','nombre img')
-            
-            break;
+                
                 case 'academias':
                 data = await Academia.find({nombre: regex })
                                     .populate('usuario','nombre img')
@@ -51,14 +51,102 @@ const getDocumentoColeccion = async (req, res = response) =>{
             
             break;
                 case 'usuarios':
-                data = await Usuario.find({nombre: regex });
+                data = await Usuario.find({
+                    $or: [{nombre: regex}, {apellido: regex}, {cedula: regex}],
+                    });
+               
+
+            break;
+               
+                case 'estudiantes':
+                data = await Estudiante.find({usuario:busqueda})
+                                       .populate('usuario','nombre apellido ')
+                                        .populate('curso',' ')
+                                        .populate({
+                                            path: 'curso',
+                                            populate: { path: 'curso', 'select': 'nombre' }
+                                        })
+                                       .populate({
+                                            path: 'curso',
+                                            populate: { path: 'academia', 'select': 'nombre' }
+                                        })
                
                 break;
+
+                case 'profesores':
+                    // Profesores.find({rol: busqueda });
+                    data = await Periodos.find({profesor: busqueda })
+                                                .populate('curso',' ')
+                                                // .populate({
+                                                //     path: 'curso',
+                                                //     populate: { path: 'curso', 'select': 'nombre' }
+                                                // })
+                                                // .populate({
+                                                //     path: 'curso',
+                                                //     populate: { path: 'academia', 'select': 'nombre' }
+                                                // })
+                                        // .populate('usuario','nombre img')
+                                        // .populate('academia','nombre img')
+                
+                break;
+
+                case 'notas':
+
+                data = await Estudiante.find({curso:busqueda})
+                                       .populate('usuario','nombre apellido ')
+                                        .populate('curso',' ')
+                                        .populate('modulos',' ')
+                                        .populate({
+                                            path: 'curso',
+                                            populate: { path: 'curso', 'select': 'nombre' }
+                                        })
+                                       .populate({
+                                            path: 'curso',
+                                            populate: { path: 'academia', 'select': 'nombre' }
+                                        })
+               
+                break;
+                
+                case 'notas':
+
+                data = await Estudiante.find({curso:busqueda})
+                                       .populate('usuario','nombre apellido ')
+                                        .populate('curso',' ')
+                                        .populate('modulos',' ')
+                                        .populate({
+                                            path: 'curso',
+                                            populate: { path: 'curso', 'select': 'nombre' }
+                                        })
+                                       .populate({
+                                            path: 'curso',
+                                            populate: { path: 'academia', 'select': 'nombre' }
+                                        })
+               
+                break;
+
+
+                case 'periodos':
+
+                data = await Periodos.findById({_id:busqueda})
+                                    //    .populate('usuario','nombre apellido ')
+                                        .populate('curso',' ')
+                                    //     .populate('modulos',' ')
+                                    //     .populate({
+                                    //         path: 'curso',
+                                    //         populate: { path: 'curso', 'select': 'nombre' }
+                                    //     })
+                                    //    .populate({
+                                    //         path: 'curso',
+                                    //         populate: { path: 'academia', 'select': 'nombre' }
+                                    //     })
+               
+                break;
+               
     
         default:
                 return res.status(400).json({
                 ok: false,
-                msg: 'La tabla tiene que contener usuarios/profesores/academias'
+                msg: 'La tabla tiene que contener un valor valido'
             });
 
                   }
