@@ -33,11 +33,15 @@ app.use('/api/programas', require('./router/programas'));
 app.use('/api/periodos', require('./router/periodos'));
 app.use('/api/notas', require('./router/notas'));
 app.use('/api/todo', require('./router/busquedas'));
+app.use('/api/resultados', require('./router/resultados'));
 app.use('/api/todo/coleccion', require('./router/busquedas'));
 app.use('/api/login', require('./router/auth'));
 app.use('/api/uploads', require('./router/uploads'));
 app.use('/api/pagos', require('./router/pagos'));
 app.use('/api/recibos', require('./router/recibos'));
+app.use('/api/pizarra', require('./router/pizarra'));
+app.use('/api/auth', require('./router/auth'));
+// app.use('/api/sendEmail', require('./router/sendEmail'));
 
 
     

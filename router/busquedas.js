@@ -1,5 +1,5 @@
 /*
-ruta:    /api/todo/Diego
+ruta:    api/resultados/busquedas/:busqueda
 */
 const {Router} = require ('express');
 const {validarJWT} =require('../middleware/validar-jwt');

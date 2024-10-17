@@ -1,8 +1,22 @@
 const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const Usuario = require('../models/usuario');
-const {generarJwt} = require('../helpers/jwt')
+const {generarJwt} = require('../helpers/jwt');
+const nodemailer  = require('nodemailer');
 
+
+const { auth } = require('google-auth-library');
+
+const SendMailOptions = {
+    to: String | [],
+    subject: String,
+    htmlBody: String,
+    // attachements: Attachement | []
+}
+// const Attachement = {
+//     filename: String,
+//     path: String
+//   }
 
 
 const getUsuarioByRoleProfesor  = async (req, res) =>{
@@ -149,12 +163,16 @@ const crearUsuarios = async(req, res = response) => {
         const salt = bcrypt.genSaltSync();
         usuario.password = bcrypt.hashSync(password, salt);
 
-        
+
+        //Eviar correo
         
         // Guardar usuario
         await usuario.save();
+        
+        
         //generar el JWT
         const token = await generarJwt(usuario.id);
+        sendEmailValidationLink(token,email);
         
         res.json({
             ok: true,
@@ -246,6 +264,57 @@ const borrarUsuarios = async(req, res= response)=>{
     }
 }
 
+const sendEmailValidationLink = async ( token, correo) => {
+   
+    const config = {
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: "academiavna12@gmail.com",
+            pass: "jzww oagf bzgh qhvm"
+        }
+    }
+   
+    // let mailService = "gmail";
+    // let mailEmail = "dvelarde140@gmail.com";
+    // let mailSecretKey= "sqvr zucy wqbl rurw";
+
+    const mensaje = {
+        from: "academiavna12@gmail.com",
+        to: correo,
+        subject: "Validar Email",
+        html: `<h1>Validar Email</h1>
+        <p>Para validar el email haga click en el siguiente link</p>
+        <a href="http://localhost:3000/api/auth/validar-email/${token}">Validar Email:${correo}</a>`
+    }
+
+
+    const transporter = nodemailer.createTransport(config);
+    const info = await transporter.sendMail(mensaje);
+    console.log(info);
+
+    }
+
+    const validarToken = async(token) => {
+    
+        const payload = await JwtAdapter.validateToken(token);
+        if(!payload) throw CustomsError.internaServer('Error validating token');
+
+        const {email} = payload ;
+
+        // if(!email) throw CustomsError.internaServer('Error validating token');
+
+        const user = await UserModel.findOne({email: email});
+
+        // if(!user) throw CustomsError.internaServer('no user found');
+
+        user.emailValidated = true;
+        await user.save();
+        return true;
+        
+
+    }
 module.exports = {
     getUsuarios,
     crearUsuarios,

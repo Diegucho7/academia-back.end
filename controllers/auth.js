@@ -120,10 +120,32 @@ const renewToken= async(req, res = response) =>{
 }
 
 
+const sendEmail = async(req, res = response) =>{
+    const {to, subject, htmlBody, attachements = []} = req.body;
+
+    try {
+        const transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+        // const info = await transporter.sendMail({
+        //     from: process.env.EMAIL_FROM,
+
+
 
 module.exports = {
     
     login,
     googleSignIn,
-    renewToken
+    renewToken,
+    sendEmail
 }
