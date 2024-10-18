@@ -42,8 +42,12 @@ const validarEmail = (req, res) => {
         console.log('El token está firmado por tu base de datos');
         // console.log(decoded); // Imprime el contenido del token
         // console.log(decoded.uid)
-        res.json('validarEmail');
+        res.json('Email Validado');
         const uid = decoded.uid;
+        console.log(decoded);
+        // decoded.emailValidated = true;
+        // await user.save();
+        // return true;
         actualizarEstado(uid);
     }
 });
@@ -93,20 +97,20 @@ const actualizarEstado = async (req, res = request, response) => {
             // hospital.nombre = req.body.nombre;
                      
         // REPARAR EN VEZ DE CONSOLE.LOG HACER RES.JSON !!!!!!!!!!!!11
-            res.json({
-            ok: true,
-            usuario: usuarioActualizado
-        })
+        //     res.json({
+        //     ok: true,
+        //     usuario: usuarioActualizado
+        // })
         
 
         
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({
-            ok: false,
-            msg: 'Hable con el administrador'
-        })
+        // res.status(500).json({
+        //     ok: false,
+        //     msg: 'Hable con el administrador'
+        // })
         
     }
 

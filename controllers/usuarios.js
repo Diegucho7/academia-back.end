@@ -151,12 +151,31 @@ const crearUsuarios = async(req, res = response) => {
     const { email, password } = req.body;
     try {
         const existeEmail = await Usuario.findOne({ email });
-        if ( existeEmail ) {
+        if ( existeEmail  ) {
+
+
+            if (existeEmail.emailValidated === true) {
+
+            // console.log(existeEmail.emailValidated);
             return res.status(400).json({
                 ok: false,
-                msg: 'El correo ya está registrado'
+                msg: 'El correo ya está registrado y validado'
             });
-        }
+            }
+            if (existeEmail.emailValidated === false) {
+            
+               await borrarUsuariosNoAutenticado(existeEmail._id);
+                
+            }
+
+            }
+
+
+
+           
+        // }
+
+
         const usuario = new Usuario( req.body );    
     
         //Encriptar contraseña
@@ -180,7 +199,8 @@ const crearUsuarios = async(req, res = response) => {
             token
             
         });
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error);
         res.status(500).json({
             ok: false,
@@ -255,6 +275,29 @@ const borrarUsuarios = async(req, res= response)=>{
             ok: true,
             msg: 'Usuario eliminado'
         })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
+const borrarUsuariosNoAutenticado = async(req, res= response)=>{
+    console.log(req);
+    // return
+    const uid = req;
+    try {
+        const usuarioDB = await Usuario.findById(uid);
+        if( !usuarioDB ){               
+            return res.status(404).json({
+                ok: false,
+                msg: 'no existe un usuario con ese id'
+            });
+        }
+        await Usuario.findByIdAndDelete(uid);
+           
+           return  console.log("borrado");
     } catch (error) {
         console.log(error);
         res.status(500).json({
