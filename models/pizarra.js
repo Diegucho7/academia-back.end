@@ -1,9 +1,14 @@
 const {Schema, model} = require('mongoose');
+const moment = require('moment');
 
-const PizarraSchema = Schema({
+
+
+
+const PizarrasSchema = Schema({
     periodo:{
-        type: String,
-        required: true
+        required: true,
+        type: Schema.Types.ObjectId,
+        ref: 'Periodo'
     },
     asunto:{
         type: String,
@@ -18,14 +23,19 @@ const PizarraSchema = Schema({
         required: true,
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
+    },
+    fecha: {
+        type: Date,
+        default: Date.now
+        
     }
-},  { collection: 'pizarra'});
+},  { collection: 'pizarras'});
 
-PizarraSchema.method('toJSON', function() {
-    const { __v, password, ...object } = this.toObject();
+PizarrasSchema.method('toJSON', function() {
+    const { __v, ...object} = this.toObject();  
     return object;
 })
 
 
 
-module.exports = model( 'Pizarra', PizarraSchema);
+module.exports = model( 'Pizarra', PizarrasSchema);

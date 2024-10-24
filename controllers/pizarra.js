@@ -1,50 +1,53 @@
 const {response} = require('express');
 const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
+const moment = require('moment');
 
-const Pizarra = require('../models/pizarra');
-// const pizarra = require('../models/pizarra');
+const Pizarras = require('../models/pizarra');
+const usuario = require('../models/usuario');
 
-// const getPizarra = async (req, res) =>{
+const getPizarra = async (req, res) =>{
 
-//     const profesores = await Pizarra.find()
-//                                     .populate('usuario','nombre apellido')
-//                                     .populate('academia','nombre  ')
-//     res.json({
-//         ok: true,
-//         profesores
-//     })
+    const pizarra = await Pizarras.find()
+                                    .populate('usuario','nombre apellido')
+                                    // .populate('pizarra')
+    res.json({
+        ok: true,
+        pizarra
+    })
 
-// }
+}
 
-// const getProfesorById  = async (req, res) =>{
+const getPizarraById  = async (req, res) =>{
 
-//     const id = req.params.id;
+    const id = req.params.id;
 
     
-//     try {
-//         const pizarra = await Pizarra.findById(id)
-//                                         .populate('usuario','nombre apellido img')
-//                                         .populate('academia','nombre img')
-//                                         // .populate('materia','nombre img');
-//         res.json({
-//             ok: true,
-//             pizarra
-//         })
+    try {
+        const pizarra = await Pizarras.findById(id)
+                                        .populate('usuario','nombre apellido')
+                                        // .populate('academia','nombre img')
+                                        // .populate('materia','nombre img');
+        res.json({
+            ok: true,
+            pizarra
+        })
         
-//     } catch (error) {
-//         console.log(error)
-//         res.json({
-//             ok: false,
-//             msg: 'Hable con el administrador, profesor no encontrado',
-//         })
-//         }
+    } catch (error) {
+        console.log(error)
+        res.json({
+            ok: false,
+            msg: 'Hable con el administrador, tarea no encontrada',
+        })
+        }
 
-// }
+}
 
 const crearPizarra = async (req, res) =>{
+   
     const uid =  req.uid;
-    const pizarra = new Pizarra({
+    const pizarra = new Pizarras({
+       
         usuario:uid,
         ...req.body
     });
@@ -71,94 +74,94 @@ const crearPizarra = async (req, res) =>{
 }
 
 
-// const actualizarPizarra = async(req, res) =>{
-//     const id  = req.params.id;
-//     const uid = req.uid;
+const actualizarPizarra = async(req, res) =>{
+    const id  = req.params.id;
+    const uid = req.uid;
 
-//     try {
+    try {
 
-//         const profesor = await Pizarra.findById( id );
-//         if(!profesor){
-//             res.status(500).json({
-//                 ok: false,
-//                 msg: 'Profesor no encontrado'
-//                                 })
-//                      }
+        const pizarra = await Pizarras.findById( id );
+        if(!pizarra){
+            res.status(500).json({
+                ok: false,
+                msg: 'Tarea no encontrado'
+                                })
+                     }
                      
-//                      const cambiosProfesor = {
-//                         ...req.body,
-//                         usuario: uid
-//                      }
+                     const cambiosTarea = {
+                        ...req.body,
+                        usuario: uid
+                     }
 
-//                 const profesorActualizado = await Pizarra.findByIdAndUpdate( id, cambiosProfesor,{new:true});
+                const pizarraActualizado = await Pizarras.findByIdAndUpdate( id, cambiosTarea,{new:true});
 
-//             // hospital.nombre = req.body.nombre;
+            // hospital.nombre = req.body.nombre;
                      
         
-//             res.json({
-//             ok: true,
-//             Profesor: profesorActualizado
-//         })
+            res.json({
+            ok: true,
+            Tarea: pizarraActualizado
+        })
         
 
 
 
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({
-//             ok: false,
-//             msg: 'Hable con el administrador'
-//         })
-//     }
-// }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
 
 
-// const borrarPizarra = async(req, res) =>{
+const borrarPizarra = async(req, res) =>{
 
-//     const id  = req.params.id;
+    const id  = req.params.id;
 
-//     try {
+    try {
 
-//         const profesor = await Pizarra.findById( id );
-//         if(!profesor){
-//             res.status(500).json({
-//                 ok: false,
-//                 msg: 'Profesor no encontrado'
-//                                 })
-//                      }
+        const pizarra = await Pizarras.findById( id );
+        if(!pizarra){
+            res.status(500).json({
+                ok: false,
+                msg: 'Tarea no encontrada'
+                                })
+                     }
                      
                     
-//                 await Pizarra.findByIdAndDelete (id);
+                await Pizarras.findByIdAndDelete (id);
 
                      
         
-//             res.json({
-//             ok: true,
-//             msg:'Profesor Eliminado'
-//         })
+            res.json({
+            ok: true,
+            msg:'Tarea Eliminada'
+        })
         
 
 
 
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).json({
-//             ok: false,
-//             msg: 'Hable con el administrador'
-//         })
-//     }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
 
 
     
-// }
+}
 
 
 
 
 module.exports = {
-    // getPizarra,
     crearPizarra,
-    // actualizarPizarra,
-    // borrarPizarra,
-    // getProfesorById
+    getPizarra,
+    getPizarraById,
+    actualizarPizarra,
+    borrarPizarra,
 }

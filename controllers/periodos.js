@@ -3,6 +3,7 @@ const  bcrypt  = require ('bcryptjs');
 const {generarJwt} = require('../helpers/jwt')
 
 const Periodos = require('../models/periodo');
+const usuario = require('../models/usuario');
 
 const getPeriodos = async (req, res) =>{
 

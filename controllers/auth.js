@@ -5,7 +5,7 @@ const {generarJwt} = require('../helpers/jwt')
 const { googleVerify } = require("../helpers/google-verify")
 const { getMenuFrontEnd } = require("../helpers/menu-frontend")
 //Nota
-const login = async(req, res = response)=>{
+const   login = async(req, res = response)=>{
 
     const {email, password} = req.body;
 
@@ -25,6 +25,13 @@ const login = async(req, res = response)=>{
 
         // Verificar contraseña
         const validarPassword = bcrypt.compareSync(password, usuarioDB.password);
+        if(usuarioDB.emailValidated === false){
+            return res.status(404).json({
+                ok: false,
+                msg: 'El correo no ha sido validado'
+            });
+        }
+
         if(!validarPassword){
             return res.status(404).json({
                 ok: false,

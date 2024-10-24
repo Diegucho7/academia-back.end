@@ -4,8 +4,8 @@ const Usuario = require('../models/usuario');
 const Profesores = require('../models/profesor');
 const Academia = require('../models/academia');
 const Estudiante = require('../models/estudiante');
-const usuario = require('../models/usuario');
 const Periodos = require('../models/periodo');
+const Pizarras = require('../models/pizarra');
 
 const getTodo = async (req, res = response) =>{
     
@@ -72,6 +72,25 @@ const getDocumentoColeccion = async (req, res = response) =>{
                                         })
                
                 break;
+                case 'estudiantesCedula':
+                    try {
+                        
+                        data = await Estudiante.findById({usuario:busqueda})
+                                               .populate('usuario','nombre apellido ')
+                                                .populate('curso',' ')
+                                                .populate({
+                                                    path: 'curso',
+                                                    populate: { path: 'curso', 'select': 'nombre' }
+                                                })
+                                               .populate({
+                                                    path: 'curso',
+                                                    populate: { path: 'academia', 'select': 'nombre' }
+                                                })
+                       
+                        break;
+                    } catch (error) {
+                        console.log(error)
+                    }
 
                 case 'profesores':
                     // Profesores.find({rol: busqueda });
@@ -107,24 +126,49 @@ const getDocumentoColeccion = async (req, res = response) =>{
                
                 break;
                 
-                case 'notas':
+                // case 'notas':
 
-                data = await Estudiante.find({curso:busqueda})
-                                       .populate('usuario','nombre apellido ')
-                                        .populate('curso',' ')
-                                        .populate('modulos',' ')
+                // data = await Estudiante.find({curso:busqueda})
+                //                        .populate('usuario','nombre apellido ')
+                //                         .populate('curso',' ')
+                //                         .populate('modulos',' ')
+                //                         .populate({
+                //                             path: 'curso',
+                //                             populate: { path: 'curso', 'select': 'nombre' }
+                //                         })
+                //                        .populate({
+                //                             path: 'curso',
+                //                             populate: { path: 'academia', 'select': 'nombre' }
+                //                         })
+               
+                // break;
+
+
+                case 'periodoTareas':
+
+                data = await Pizarras.find({periodo:busqueda})
+                                    //    .populate('usuario','nombre apellido ')
+                                        // .populate('usuario',' ')
+                                    //     .populate('modulos',' ')
                                         .populate({
-                                            path: 'curso',
-                                            populate: { path: 'curso', 'select': 'nombre' }
+                                            path: 'periodo',
+                                             populate:{ path: 'curso', 'select': 'nombre' } ,                                           // .populate('anio','nombre  ')
+                                            //  populate:{ path: 'profesor', 'select': 'nombre' }                                            // .populate('anio','nombre  ')
+                                            
                                         })
-                                       .populate({
-                                            path: 'curso',
-                                            populate: { path: 'academia', 'select': 'nombre' }
+                                        .populate({
+                                            path: 'periodo',
+                                             populate:{ 
+                                                path: 'profesor',
+                                                 'select': 'nombre apellido ' 
+                                                },                                     
                                         })
+                                    //    .populate({
+                                    //         path: 'curso',
+                                    //         populate: { path: 'academia', 'select': 'nombre' }
+                                    //     })
                
                 break;
-
-
                 case 'periodos':
 
                 data = await Periodos.findById({_id:busqueda})
